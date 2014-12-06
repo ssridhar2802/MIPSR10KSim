@@ -5,6 +5,7 @@
  */
 package mipsr10ksim;
 
+import mipsr10ksim.utils.TraceParser;
 import java.util.ArrayList;
 import mipsr10ksim.utils.BoundedQueue;
 
@@ -38,6 +39,9 @@ public class MIPSR10KSim {
         for (int i=0; i<2; i++) {
             calc();
             edge();
+        }
+        for (Instruction i: FloatingPointQueue) {
+            System.out.println(i);
         }
     }
     
