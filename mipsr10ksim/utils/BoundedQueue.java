@@ -33,4 +33,10 @@ public class BoundedQueue<E> extends LinkedList<E> {
         else 
             return true;
     }
+    
+    public E pop(E o) {
+        if(!this.isEmpty())
+            return this.remove(0);
+        return null;
+    }
 }

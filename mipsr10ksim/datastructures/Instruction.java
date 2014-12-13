@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mipsr10ksim;
+package mipsr10ksim.datastructures;
+
+import java.util.List;
 
 /**
  *
@@ -11,16 +13,13 @@ package mipsr10ksim;
  */
 public class Instruction {
     private char opcode;
-    private int rs;
-    private int rt;
-    private int rd;
-    private long extra;
+    private int rs=-1;
+    private int rt=-1;
+    private int rd=-1;
+    private long extra=-1;
     
-    Instruction() {
-        
-    }
     
-    Instruction(char opcode, int rs, int rt, int rd, int extra) {
+    public Instruction(char opcode, int rs, int rt, int rd, int extra) {
         this.opcode = opcode;
         this.rs = rs;
         this.rt = rt;
@@ -28,7 +27,17 @@ public class Instruction {
         this.extra = extra;
     }
 
+    public Instruction() {
+       
+    }
+
+    public int getDestinationRegister() {
+        return rd;
+    }
     
+    public void setDestinationRegister(int r) {
+        this.rd = r;
+    }
     @Override
     public String toString() {
         String outputString = String.format("%c %X %X %X %X", getOpcode(), getRs(), getRt(), getRd(), getExtra());

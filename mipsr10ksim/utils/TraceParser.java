@@ -8,9 +8,8 @@ package mipsr10ksim.utils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Scanner;
-import mipsr10ksim.Instruction;
+import mipsr10ksim.datastructures.Instruction;
 
 /**
  *
@@ -61,6 +60,7 @@ public class TraceParser {
             return instructions;
     }
     public static void main(String args[]) {
+        System.out.println("hello world");
         String inputFile = "/home/sridhar/NetBeansProjects/MIPSR10KSim/src/mipsr10ksim/trace.txt";
         ParseFile(inputFile);
         

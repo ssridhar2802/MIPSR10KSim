@@ -7,7 +7,7 @@ package mipsr10ksim.stages;
 
 import java.util.ArrayList;
 import java.util.List;
-import mipsr10ksim.Instruction;
+import mipsr10ksim.datastructures.Instruction;
 import mipsr10ksim.MIPSR10KSim;
 
 /**
@@ -18,16 +18,16 @@ public class Fetch {
     private static List<Instruction> instructions;
     
     public static void calc() {
-        int upperPC;
-        if (MIPSR10KSim.PC > MIPSR10KSim.instructions.size())
-            return;
-        if (MIPSR10KSim.PC + 4 > MIPSR10KSim.instructions.size()) {
-            upperPC = instructions.size();
+        int PC = MIPSR10KSim.PC;
+        instructions = new ArrayList<Instruction>();
+        for(int i=0; i<4; i++) {
+            if (PC >= MIPSR10KSim.instructions.size()) 
+                return;
+            else {
+                instructions.add(MIPSR10KSim.instructions.get(PC));
+                PC++;
+            }
         }
-        else {
-            upperPC = MIPSR10KSim.PC+4;
-        }
-        instructions = MIPSR10KSim.instructions.subList(MIPSR10KSim.PC, upperPC);
     }
     public static void edge() {
         for (Instruction i: instructions) {

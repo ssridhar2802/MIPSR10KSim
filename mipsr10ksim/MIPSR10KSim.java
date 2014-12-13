@@ -5,8 +5,13 @@
  */
 package mipsr10ksim;
 
+import mipsr10ksim.datastructures.Instruction;
 import mipsr10ksim.utils.TraceParser;
 import java.util.ArrayList;
+import mipsr10ksim.datastructures.ActiveListEntry;
+import mipsr10ksim.datastructures.FreeList;
+import mipsr10ksim.datastructures.QueueEntry;
+import mipsr10ksim.datastructures.RegisterMap;
 import mipsr10ksim.utils.BoundedQueue;
 
 /**
@@ -19,10 +24,13 @@ public class MIPSR10KSim {
     public static int PC=0;
     public static BoundedQueue<Instruction> InstructionBuffer = new BoundedQueue<Instruction>(8);
     public static ArrayList<Instruction> instructions = TraceParser.ParseFile(inputFile);
-    public static BoundedQueue<Instruction> ActiveList = new BoundedQueue<>(32);
-    public static BoundedQueue<Instruction> IntegerQueue = new BoundedQueue<>(32);
-    public static BoundedQueue<Instruction> FloatingPointQueue = new BoundedQueue<>(32);
-    public static BoundedQueue<Instruction> AddressQueue = new BoundedQueue<>(32);
+    public static BoundedQueue<ActiveListEntry> ActiveList = new BoundedQueue<>(32);
+    public static BoundedQueue<QueueEntry> IntegerQueue = new BoundedQueue<>(32);
+    public static BoundedQueue<QueueEntry> FloatingPointQueue = new BoundedQueue<>(32);
+    public static BoundedQueue<QueueEntry> AddressQueue = new BoundedQueue<>(32);
+    public static FreeList freeList = new FreeList();
+    public static RegisterMap rmap = new RegisterMap();
+    public static boolean BusyBits[] = new boolean[64]; 
     /**
      * @param args the command line arguments
      */
@@ -36,13 +44,10 @@ public class MIPSR10KSim {
     }
     public static void main(String[] args) {
         // TODO code application logic here
-        for (int i=0; i<2; i++) {
+
+        for (int i=0; i<30; i++) {
             calc();
             edge();
         }
-        for (Instruction i: FloatingPointQueue) {
-            System.out.println(i);
-        }
     }
-    
 }
