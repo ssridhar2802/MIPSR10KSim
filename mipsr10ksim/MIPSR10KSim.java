@@ -28,24 +28,32 @@ public class MIPSR10KSim {
     public static BoundedQueue<QueueEntry> IntegerQueue = new BoundedQueue<>(32);
     public static BoundedQueue<QueueEntry> FloatingPointQueue = new BoundedQueue<>(32);
     public static BoundedQueue<QueueEntry> AddressQueue = new BoundedQueue<>(32);
+    public static BoundedQueue<QueueEntry> CommitBuffer = new BoundedQueue<>(64);
     public static FreeList freeList = new FreeList();
     public static RegisterMap rmap = new RegisterMap();
     public static boolean BusyBits[] = new boolean[64]; 
+    public static int clock=0;
     /**
      * @param args the command line arguments
      */
     public static void calc() {
         mipsr10ksim.stages.Fetch.calc();
         mipsr10ksim.stages.Decode.calc();
+        mipsr10ksim.stages.Issue.calc();
+        mipsr10ksim.stages.IntegerUnit.calc();
+        mipsr10ksim.stages.FloatingPointUnit.calc();
     }
     public static void edge() {
         mipsr10ksim.stages.Fetch.edge();
         mipsr10ksim.stages.Decode.edge();
+        mipsr10ksim.stages.Issue.edge();
+        mipsr10ksim.stages.IntegerUnit.edge();
+        mipsr10ksim.stages.FloatingPointUnit.edge();
     }
     public static void main(String[] args) {
         // TODO code application logic here
 
-        for (int i=0; i<30; i++) {
+        for (; clock<30; clock++) {
             calc();
             edge();
         }

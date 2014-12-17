@@ -32,11 +32,17 @@ public class Instruction {
     }
 
     public int getDestinationRegister() {
-        return rd;
+        if(opcode=='L') 
+            return rt;
+        else
+            return rd;
     }
     
     public void setDestinationRegister(int r) {
-        this.rd = r;
+        if(opcode=='L') 
+            this.rt=r;
+        else
+            this.rd =r;
     }
     @Override
     public String toString() {

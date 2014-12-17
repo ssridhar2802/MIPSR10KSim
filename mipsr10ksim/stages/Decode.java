@@ -27,7 +27,16 @@ public class Decode {
     static FreeList freeList;
     static List<Integer> markbusy;
     
+    public static Instruction remapInstructions(Instruction i) {
+        i.setRd(rmap.getMapping(i.getRd()));
+        i.setRt(rmap.getMapping(i.getRt()));
+        i.setRs(rmap.getMapping(i.getRs()));
+        return i;
+    } 
+    
     public static void calc() {
+        //TODO: Map source operands before destination operands
+        
         rmap = MIPSR10KSim.rmap;
         ActiveList = MIPSR10KSim.ActiveList;
         IntegerQueue = MIPSR10KSim.IntegerQueue;
@@ -51,6 +60,7 @@ public class Decode {
                 int newMapping = freeList.getRegister();
                 int oldMapping = rmap.getMapping(destinationregister);
                 rmap.updateMapping(destinationregister, newMapping);
+                markbusy.add(newMapping);
                 //instruction.setDestinationRegister(newMapping);
                 ae = new ActiveListEntry(instructionType, destinationregister, newMapping, oldMapping);
             }
@@ -58,6 +68,9 @@ public class Decode {
                 ae = new ActiveListEntry(instructionType, -1, -1, -1);
             }
             int entryNum = ae.getEntryNum();
+            //System.out.println("actual: "+instruction);
+            instruction = remapInstructions(instruction);
+            //System.out.println("remapped: "+instruction);
             QueueEntry qe = new QueueEntry(instruction, entryNum);
             if (instructionType == 'L' || instructionType == 'S') {
                 if(AddressQueue.hasSpace()) {
@@ -81,7 +94,7 @@ public class Decode {
                     break;
             }
             ActiveList.add(ae);
-            System.out.println(ae);
+            //System.out.println(ae);
             
         }
     }
@@ -92,5 +105,8 @@ public class Decode {
         MIPSR10KSim.IntegerQueue = IntegerQueue;
         MIPSR10KSim.freeList = freeList;
         MIPSR10KSim.rmap = rmap;
+        for (Integer i: markbusy) {
+            MIPSR10KSim.BusyBits[i]=true;
+        }
     }
 }

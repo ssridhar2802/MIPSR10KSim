@@ -21,6 +21,8 @@ public class RegisterMap extends HashMap {
     }
     
     public int getMapping(int aregister) {
+        if (aregister==-1)
+            return -1;
         return (int) registermap.get(aregister);
     }
     
