@@ -13,7 +13,7 @@ import mipsr10ksim.utils.BoundedQueue;
  * @author sridhar
  */
 public class FreeList {
-    BoundedQueue pregisters;
+    public BoundedQueue<Integer> pregisters;
     public FreeList() {
          this.pregisters = new BoundedQueue<Integer>(32);
          for(int i=32; i<64; i++) {
@@ -22,7 +22,7 @@ public class FreeList {
     }
     
     public Integer getRegister() {
-        return (Integer) pregisters.pop();
+        return pregisters.pop();
     }
     public boolean addRegister(int reg) {
         return pregisters.add(reg);   

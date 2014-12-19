@@ -22,18 +22,16 @@ public class Issue {
     
     public static boolean isReady(Instruction instruction) {
         if(instruction.getOpcode()=='L') {
-            if(((instruction.getRd()!=-1) &&MIPSR10KSim.BusyBits[instruction.getRd()]) || 
-                   ((instruction.getRs()!=-1)&& MIPSR10KSim.BusyBits[instruction.getRs()])) {
-                //System.out.println("Instruction is busy: "+instruction );
+            if(MIPSR10KSim.BusyBits[instruction.getRd()] && MIPSR10KSim.BusyBits[instruction.getRs()]) {
+                //System.out.println("Instruction is not ready: "+instruction +MIPSR10KSim.BusyBits[instruction.getRd()]+MIPSR10KSim.BusyBits[instruction.getRs()]);
                 return false;
             } else {
                 return true;
             }
         }
         else {
-            if(((instruction.getRt()!=-1) &&MIPSR10KSim.BusyBits[instruction.getRt()]) || 
-                   ((instruction.getRs()!=-1)&& MIPSR10KSim.BusyBits[instruction.getRs()])) {
-                //System.out.println("Instruction is busy: "+instruction);
+            if((instruction.getRt()==-1||MIPSR10KSim.BusyBits[instruction.getRt()]) && (instruction.getRs()==-1||MIPSR10KSim.BusyBits[instruction.getRs()])) {
+                //System.out.println("Instruction is not ready: "+instruction+MIPSR10KSim.BusyBits[instruction.getRt()]+MIPSR10KSim.BusyBits[instruction.getRs()]);
                 return false;
             } else {
                 return true;
@@ -45,8 +43,9 @@ public class Issue {
         for (QueueEntry qe: mipsr10ksim.MIPSR10KSim.IntegerQueue) {
             if(!qe.isMarkedReady()) {
                 if(isReady(qe.getInstruction())) {
-                    qe.readyForExecution(true);
+                    //qe.readyForExecution(true);
                     integerReady.add(qe);
+                    mipsr10ksim.MIPSR10KSim.State.addEntry(qe.getInstruction().getDecodeId(), mipsr10ksim.MIPSR10KSim.clock, "I");
             }
             }
         }
@@ -56,8 +55,10 @@ public class Issue {
         for(QueueEntry qe: mipsr10ksim.MIPSR10KSim.FloatingPointQueue) {
             if(!qe.isMarkedReady()) {
                 if(isReady(qe.getInstruction())) {
-                    qe.readyForExecution(true);
+                    //qe.readyForExecution(true);
+                    //System.out.println("Adding instruction: "+qe.getInstruction());
                     floatingReady.add(qe);
+                    mipsr10ksim.MIPSR10KSim.State.addEntry(qe.getInstruction().getDecodeId(), mipsr10ksim.MIPSR10KSim.clock, "I");
             }
             
         }
@@ -69,7 +70,8 @@ public class Issue {
             if(!qe.isMarkedReady()) {
                 if(isReady(qe.getInstruction())) {
                     //qe.readyForExecution(true);
-                    floatingReady.add(qe);
+                    addressReady.add(qe);
+                    mipsr10ksim.MIPSR10KSim.State.addEntry(qe.getInstruction().getDecodeId(), mipsr10ksim.MIPSR10KSim.clock, "I");
             }
             
         }
@@ -81,9 +83,12 @@ public class Issue {
         markAddressInstructions();  
     }
     public static void edge() {
+        if(mipsr10ksim.MIPSR10KSim.exception) {
+            return;
+        }
         for(QueueEntry entry: integerReady) {
             entry.readyForExecution(true);
-            //System.out.println("Ready integer operations: "+entry.getActiveListEntry());
+            //System.out.println("Ready integer operations: "+entry.getInstruction()+"test"+mipsr10ksim.MIPSR10KSim.clock);
         }
         for(QueueEntry entry: floatingReady) {
             entry.readyForExecution(true);

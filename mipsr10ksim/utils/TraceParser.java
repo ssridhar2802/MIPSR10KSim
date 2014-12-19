@@ -28,6 +28,7 @@ public class TraceParser {
             e.printStackTrace();
         }
         ArrayList<Instruction> instructions = new ArrayList<Instruction>();
+        int counter =0;
             while (sc.hasNextLine()) {
                 
                 String line = sc.nextLine();
@@ -54,6 +55,8 @@ public class TraceParser {
                         ins.setExtra(Long.parseLong(columns[4], 16));
                     }
                 }
+                ins.setPC(counter);
+                counter++;
                 instructions.add(ins);
                 //System.out.println(ins);
             }

@@ -5,26 +5,40 @@
  */
 package mipsr10ksim.datastructures;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author sridhar
  */
-public class Instruction {
+public class Instruction implements Serializable {
+    static int autoincrement =0;
     private char opcode;
     private int rs=-1;
     private int rt=-1;
     private int rd=-1;
     private long extra=-1;
+    private int PC=-1;
+    private int decodeId;
     
     
-    public Instruction(char opcode, int rs, int rt, int rd, int extra) {
+    public Instruction(char opcode, int rs, int rt, int rd, long extra) {
         this.opcode = opcode;
         this.rs = rs;
         this.rt = rt;
         this.rd = rd;
         this.extra = extra;
+    }
+    
+    public Instruction(Instruction i) {
+        this.opcode = i.opcode;
+        this.rs = i.rs;
+        this.rt = i.rt;
+        this.rd = i.rd;
+        this.extra = i.extra;
+        this.PC = i.PC;
+        decodeId = this.autoincrement++;
     }
 
     public Instruction() {
@@ -38,15 +52,24 @@ public class Instruction {
             return rd;
     }
     
+    public void resetAutoIncrement() {
+        Instruction.autoincrement= 0;
+    }
     public void setDestinationRegister(int r) {
         if(opcode=='L') 
             this.rt=r;
         else
             this.rd =r;
     }
+    public int getDecodeId() {
+        return decodeId;
+    }
+    public static int getAutoIncrement() {
+        return autoincrement;
+    }
     @Override
     public String toString() {
-        String outputString = String.format("%c %X %X %X %X", getOpcode(), getRs(), getRt(), getRd(), getExtra());
+        String outputString = String.format("%c %d %d %d %d %d", getOpcode(), getRs(), getRt(), getRd(), getExtra(), getPC());
         return outputString;
     }
 
@@ -118,5 +141,13 @@ public class Instruction {
      */
     public void setExtra(long extra) {
         this.extra = extra;
+    }
+    
+    public void setPC(int PC) {
+        this.PC=PC;
+    }
+    
+    public int getPC() {
+        return this.PC;
     }
 }

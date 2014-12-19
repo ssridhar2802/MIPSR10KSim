@@ -40,4 +40,8 @@ public class ActiveListEntry {
         String outputString = String.format("%c %X %X %X %X", this.instructiontype, this.archregister, this.physregister, this.oldmapping, this.entrynum);
         return outputString;
     }
+    
+    public int getOldMapping() {
+        return oldmapping;
+    }
 }

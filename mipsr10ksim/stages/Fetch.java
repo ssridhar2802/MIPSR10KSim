@@ -20,12 +20,14 @@ public class Fetch {
     public static void calc() {
         int PC = MIPSR10KSim.PC;
         instructions = new ArrayList<Instruction>();
-        for(int i=0; i<4; i++) {
+        for(int i=0; i<MIPSR10KSim.num_issue; i++) {
             if (PC >= MIPSR10KSim.instructions.size()) 
                 return;
             else {
                 instructions.add(MIPSR10KSim.instructions.get(PC));
+                mipsr10ksim.MIPSR10KSim.State.addEntry(PC+mipsr10ksim.MIPSR10KSim.offset, mipsr10ksim.MIPSR10KSim.clock, "F");
                 PC++;
+                //System.out.println("Fetching: PC "+PC);
             }
         }
     }

@@ -14,10 +14,19 @@ public class QueueEntry {
     int activeListEntry;
     boolean readyForExecution = false;
     boolean executionIssued = false;
+    boolean executionDone = false;
     
     public QueueEntry(Instruction instruction, int activeListEntry) {
         this.instruction = instruction;
         this.activeListEntry = activeListEntry;
+    }
+    
+    public boolean isExecutionDone() {
+        return executionDone;
+    }
+    
+    public void setExecutionDone(Boolean done) {
+        executionDone = done;
     }
     
     public void readyForExecution(boolean readyForExecution) {
