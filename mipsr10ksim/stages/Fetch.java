@@ -25,7 +25,7 @@ public class Fetch {
                 return;
             else {
                 instructions.add(MIPSR10KSim.instructions.get(PC));
-                mipsr10ksim.MIPSR10KSim.State.addEntry(PC+mipsr10ksim.MIPSR10KSim.offset, mipsr10ksim.MIPSR10KSim.clock, "F");
+                //mipsr10ksim.MIPSR10KSim.State.addEntry(PC+mipsr10ksim.MIPSR10KSim.offset, mipsr10ksim.MIPSR10KSim.clock, "F");
                 PC++;
                 //System.out.println("Fetching: PC "+PC);
             }

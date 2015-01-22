@@ -30,7 +30,7 @@ public class FloatingPointUnit {
                     fpAddAllocation = qe;
                     mipsr10ksim.MIPSR10KSim.State.addEntry(fpAddAllocation.getInstruction().getDecodeId(), mipsr10ksim.MIPSR10KSim.clock, "FA1"); 
                     if(fpAddAllocation.getInstruction().getDecodeId()==1) {
-                        System.out.println("Entered FA1"+MIPSR10KSim.clock);
+                        //System.out.println("Entered FA1"+MIPSR10KSim.clock);
                     }
                     }
                 }
@@ -64,7 +64,7 @@ public class FloatingPointUnit {
         fp2buffer[0] = fpAddAllocation;
         fp2buffer[1] = fpMulAllocation;
         if(fpAddAllocation!=null &&  fpAddAllocation.getInstruction().getDecodeId()==1) {
-                        System.out.println("Removed FA1"+MIPSR10KSim.clock);
+                        //System.out.println("Removed FA1"+MIPSR10KSim.clock);
                     }
         if(fpAddAllocation!=null) {
             mipsr10ksim.MIPSR10KSim.BusyBits[fpAddAllocation.getInstruction().getDestinationRegister()]=false;

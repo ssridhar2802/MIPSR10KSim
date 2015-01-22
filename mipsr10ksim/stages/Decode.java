@@ -88,6 +88,7 @@ public class Decode {
             int destinationregister = instruction.getDestinationRegister();
             
             ActiveListEntry ae = null;
+            //System.out.println("actual: "+instruction);
             remapSourceRegisters(instruction);
             if(destinationregister == 0) {
                 ae = new ActiveListEntry(instructionType, 0, 0, 0);
@@ -120,7 +121,7 @@ public class Decode {
                     BoundedQueue<Instruction> instructionbuffer = (BoundedQueue<Instruction>) UnoptimizedDeepCopy.copy(MIPSR10KSim.InstructionBuffer);
                     mutate(instructionbuffer);
                     //System.out.println("Here: "+MIPSR10KSim.branchStack.size());
-                    System.out.println("Setting branch stack for PC: "+instruction.getPC());
+                    //System.out.println("Setting branch stack for PC: "+instruction.getPC());
                     BranchStackEntry be = new BranchStackEntry(instructionbuffer, ActiveList, IntegerQueue, FloatingPointQueue, AddressQueue, MIPSR10KSim.CommitBuffer, freeList, rmap, BusyBits, instruction.getPC(), markbusy);
                     MIPSR10KSim.branchStack.add(be);
                     IntegerQueue.add(qe);
@@ -156,7 +157,7 @@ public class Decode {
         MIPSR10KSim.rmap = rmap;
         for (Integer i: markbusy) {
             MIPSR10KSim.BusyBits[i]=true;
-            //System.out.println("Register marked as busy: "+i);
+            System.out.println("Register marked as busy: "+i);
         }
     }
 }

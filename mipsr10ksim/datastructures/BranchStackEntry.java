@@ -11,6 +11,7 @@ import java.util.Map;
 import mipsr10ksim.MIPSR10KSim;
 import static mipsr10ksim.MIPSR10KSim.InstructionBuffer;
 import mipsr10ksim.utils.BoundedQueue;
+import mipsr10ksim.utils.UnoptimizedDeepCopy;
 
 /**
  *
@@ -33,7 +34,11 @@ public class BranchStackEntry {
             FreeList fList, RegisterMap rmap, boolean BusyBits[], int PC, List<Integer> markbusy) {
         
         this.rmap = (RegisterMap) rmap.clone();
-        this.InstructionBuffer = (BoundedQueue<Instruction>) InBuffer.clone();
+        this.InstructionBuffer = (BoundedQueue<Instruction>) UnoptimizedDeepCopy.copy(InBuffer);
+        Instruction instruction = this.InstructionBuffer.get(0);
+        BoundedQueue<Instruction> bi= new BoundedQueue<Instruction>(1);
+        bi.add(instruction);
+        this.InstructionBuffer = bi;
         this.ActiveList = (BoundedQueue<ActiveListEntry>) MIPSR10KSim.ActiveList.clone();
         /*this.IntegerQueue = (BoundedQueue<QueueEntry>) MIPSR10KSim.IntegerQueue.clone();
         this.FloatingPointQueue = (BoundedQueue<QueueEntry>) MIPSR10KSim.FloatingPointQueue.clone();
@@ -52,7 +57,7 @@ public class BranchStackEntry {
     public void restore() {
         //dumpContents();
         MIPSR10KSim.rmap = this.rmap;
-        MIPSR10KSim.InstructionBuffer = (BoundedQueue<Instruction>) this.InstructionBuffer.clone();
+        MIPSR10KSim.InstructionBuffer = (BoundedQueue<Instruction>) UnoptimizedDeepCopy.copy(this.InstructionBuffer);
         MIPSR10KSim.ActiveList = (BoundedQueue<ActiveListEntry>) this.ActiveList.clone();
         /*MIPSR10KSim.IntegerQueue = (BoundedQueue<QueueEntry>) this.IntegerQueue.clone();
         MIPSR10KSim.FloatingPointQueue = (BoundedQueue<QueueEntry>) this.FloatingPointQueue.clone();

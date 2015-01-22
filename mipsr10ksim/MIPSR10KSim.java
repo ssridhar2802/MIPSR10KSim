@@ -26,7 +26,7 @@ public class MIPSR10KSim {
     private static String inputFile = "/home/sridhar/NetBeansProjects/MIPSR10KSim/src/mipsr10ksim/traces/t5.txt";
     public static int PC=0;
     public static BoundedQueue<Instruction> InstructionBuffer = new BoundedQueue<Instruction>(8);
-    public static ArrayList<Instruction> instructions = TraceParser.ParseFile(inputFile);
+    public static ArrayList<Instruction> instructions;
     public static BoundedQueue<ActiveListEntry> ActiveList = new BoundedQueue<>(32);
     public static BoundedQueue<QueueEntry> IntegerQueue = new BoundedQueue<>(32);
     public static BoundedQueue<QueueEntry> FloatingPointQueue = new BoundedQueue<>(32);
@@ -44,7 +44,7 @@ public class MIPSR10KSim {
     public static int offsetTemp=0;
     public static HashMap<Integer, Instruction> decodeMap = new HashMap<>();
     public static int num_issue=4;
-    public static int num_commits=6;
+    public static int num_commits=4;
     public static boolean flag=false;
     /**
      * @param args the command line arguments
@@ -105,9 +105,12 @@ public class MIPSR10KSim {
     }
     public static void main(String[] args) {
         // TODO code application logic here
-        
+        if(args.length>0) {
+            inputFile = args[0];
+        }
+        instructions = TraceParser.ParseFile(inputFile);
         for (; clock<1000; clock++) {
-            System.out.println("PC: "+MIPSR10KSim.PC);
+            //System.out.println("PC: "+MIPSR10KSim.PC);
             calc();
             edge();
             if(flag==true) {

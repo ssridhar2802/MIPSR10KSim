@@ -49,8 +49,8 @@ public class BranchStack {
     public void restoreBranch(int PC) {
         for (BranchStackEntry be: BranchStack) {
             if(be.PC == PC) {
-                System.out.println("Restoring branch stack: Contents");
-                be.dumpContents();
+                //System.out.println("Restoring branch stack: Contents");
+                //be.dumpContents();
                 be.restore();
                 break;
             }

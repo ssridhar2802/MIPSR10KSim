@@ -30,10 +30,11 @@ public class Issue {
             }
         }
         else {
-            if((instruction.getRt()==-1||MIPSR10KSim.BusyBits[instruction.getRt()]) && (instruction.getRs()==-1||MIPSR10KSim.BusyBits[instruction.getRs()])) {
+            if((instruction.getRt()==-1||MIPSR10KSim.BusyBits[instruction.getRt()]) || (instruction.getRs()==-1||MIPSR10KSim.BusyBits[instruction.getRs()])) {
                 //System.out.println("Instruction is not ready: "+instruction+MIPSR10KSim.BusyBits[instruction.getRt()]+MIPSR10KSim.BusyBits[instruction.getRs()]);
                 return false;
             } else {
+                //System.out.println("Instruction is ready: "+instruction+MIPSR10KSim.BusyBits[instruction.getRt()]+MIPSR10KSim.BusyBits[instruction.getRs()]);
                 return true;
             }
         }

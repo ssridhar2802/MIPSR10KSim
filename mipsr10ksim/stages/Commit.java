@@ -32,7 +32,7 @@ public class Commit {
     
     public static void calc() {
         toCommit=new ArrayList<>();
-        for(int i=CommitCounter; i<CommitCounter+4; i++) {
+        for(int i=CommitCounter; i<CommitCounter+MIPSR10KSim.num_commits; i++) {
             boolean done=false;
             for (QueueEntry qe: mipsr10ksim.MIPSR10KSim.CommitBuffer) {
                 if(qe.getInstruction().getPC()==i) {

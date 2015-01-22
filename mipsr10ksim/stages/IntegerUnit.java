@@ -76,18 +76,18 @@ public class IntegerUnit {
         mipsr10ksim.MIPSR10KSim.IntegerQueue.remove(alu2Allocation);
         
         if(alu1Allocation!=null) {
-            System.out.println("Alu1allocation :" +alu1Allocation.getInstruction());
+            //System.out.println("Alu1allocation :" +alu1Allocation.getInstruction());
             //TODO: Handle misprediction if instruction is a branch
             if(alu1Allocation.getInstructionType()=='B') {
                 if(alu1Allocation.getInstruction().getExtra()==0) {
-                    System.out.println("Branch prediction success:  removing entry from queue: "+alu1Allocation.getInstruction().getPC()+ " :"+mipsr10ksim.MIPSR10KSim.branchStack.size());
+                    //System.out.println("Branch prediction success:  removing entry from queue: "+alu1Allocation.getInstruction().getPC()+ " :"+mipsr10ksim.MIPSR10KSim.branchStack.size());
                     mipsr10ksim.MIPSR10KSim.branchStack.removeEntry(alu1Allocation.getInstruction().getPC());
                 }
                 else {
-                    System.out.println("Branch prediction failure: restoring branch stack for PC "+alu1Allocation.getInstruction().getPC());
+                   // System.out.println("Branch prediction failure: restoring branch stack for PC "+alu1Allocation.getInstruction().getPC());
                     MIPSR10KSim.exception = true;
                     //MIPSR10KSim.clearDataStructures();
-                    System.out.println("Dump before restore");
+                    //System.out.println("Dump before restore");
                     MIPSR10KSim.branchStack.dumpContents();
                     MIPSR10KSim.branchStack.restoreBranch(alu1Allocation.getInstruction().getPC());
                     MIPSR10KSim.offsetTemp = MIPSR10KSim.offset+MIPSR10KSim.PC - alu1Allocation.getInstruction().getPC();

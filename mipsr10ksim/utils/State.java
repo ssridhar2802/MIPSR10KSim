@@ -45,7 +45,7 @@ public class State {
 
             String toPrint= String.format("%-30s",mipsr10ksim.MIPSR10KSim.decodeMap.get(i));
             System.out.print(toPrint);
-            for(int j=0;j<250;j++) {
+            for(int j=0;j<500;j++) {
                 if(instruction.get(j)==null) {
                     toPrint = String.format("%-5s", "");
                 }

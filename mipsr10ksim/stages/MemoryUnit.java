@@ -56,6 +56,7 @@ public class MemoryUnit {
                         if(!qe.isExecutionDone()) {
                             LS2=qe;
                             qe.setExecutionDone(true);
+                            mipsr10ksim.MIPSR10KSim.BusyBits[LS2.getInstruction().getDestinationRegister()]=false;
                             break;
                         }
                 }
